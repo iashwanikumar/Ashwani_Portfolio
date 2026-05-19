@@ -689,19 +689,63 @@
          * Handle form submission with loading and success states
          * @param {HTMLFormElement} form - Form element
          */
-        handleSubmit(form) {
-            const button = form.querySelector('.form-btn');
-            const text = button.querySelector('span');
-            const icon = button.querySelector('i');
+        // handleSubmit(form) {
+        //     const button = form.querySelector('.form-btn');
+        //     const text = button.querySelector('span');
+        //     const icon = button.querySelector('i');
 
-            // Show loading state
-            this.setLoadingState(button, text, icon);
+        //     // Show loading state
+        //     this.setLoadingState(button, text, icon);
 
-            // Simulate API call (replace with actual submission logic)
-            setTimeout(() => {
-                this.setSuccessState(form, button, text, icon);
-            }, 2000);
-        },
+        //     // Simulate API call (replace with actual submission logic)
+        //     setTimeout(() => {
+        //         this.setSuccessState(form, button, text, icon);
+        //     }, 2000);
+        // },
+
+        //changes01 start
+
+        HandleSubmit(form) {
+    const button = form.querySelector('.form-btn');
+    const text = button.querySelector('span');
+    const icon = button.querySelector('i');
+
+    this.setLoadingState(button, text, icon);
+
+    const formData = new FormData(form);
+
+    fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+    })
+    .then(response => {
+        if (response.ok) {
+            this.setSuccessState(form, button, text, icon);
+        } else {
+            text.textContent = 'Failed! Try again';
+            button.disabled = false;
+        }
+    })
+    .catch(() => {
+        text.textContent = 'Error! Try again';
+        button.disabled = false;
+    });
+},
+
+
+
+
+        // changes 01 end
+
+
+
+
+
+
+
+
+
 
         /**
          * Set button to loading state
